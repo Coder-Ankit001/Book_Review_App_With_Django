@@ -1,0 +1,23 @@
+.pagination{
+    margin-top: 1rem;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 4px;
+}
+
+.pagination-step-links{
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    column-gap: 10px;
+}
+
+.pagination-slide-page{
+    width: 40px;
+    padding: 4px;
+    background-color: rgb(231, 231, 231);
+    border-radius: 2px;
+    font-size: 14px;
+    text-align: center;
+}

@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}<link rel="stylesheet" href="{% static 'css/table_striped.css' %}">{% endblock  %}
+{% block title %} {{ author.name }} - Author Details {% endblock  %}
+
+{% block content %}
+    <h2>{{author.name}}</h2>
+    <p><strong>Most Famous Book:</strong> {{ author.most_famous_book }}</p>
+    <p><strong>Books Written:</strong> {{ author.books_written }}</p>
+
+    <h2>Authored Books</h2>
+    <table class="table-striped">
+        <thead>
+            <tr>
+            <th scope="col">S No.</th>
+            <th scope="col">Book Title</th>
+            <th scope="col">Genre</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for book in author.books.all %}
+            <tr>
+                <th scope="row">{{ forloop.counter }}</th>
+                <td>{{ book.title }}</td>
+                <td>
+                    {% for genre in book.genres.all %}
+                        {{ genre.name }}{% if not forloop.last %}, {% endif %}
+                    {% endfor %}
+                </td>
+                </tr>
+            <tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

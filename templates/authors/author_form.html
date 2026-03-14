@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/forms.css' %}">
+{% endblock %}
+
+{% block title %}  Author Form {% endblock  %}
+
+{% block content %}
+<div class="form-container">
+    <h1>{% if object %}Update Author{% else %}Add New Author{% endif %}</h1>
+      <form method="post">
+        {% csrf_token %}
+        {% for field in form %}
+          <div class="form-group">
+            {{ field.label_tag }}
+            {{ field }}
+            {{ field.errors }}
+          </div>
+        {% endfor %}
+        <button type="submit" class="btn btn-primary">
+          {% if object %}Save Changes{% else %}Create{% endif %}
+        </button>
+      </form>
+  </div>
+{% endblock %}

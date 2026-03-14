@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% load static %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/table_striped.css' %}">
+{% endblock  %}
+{% block title %} Author List {% endblock  %}
+
+{% block content %}
+    <h2>Book List</h2>
+
+    <div class="mb-3">
+        <a href="{% url 'books:book_create' %}" class="btn btn-success mb-3">Add New Book</a>
+    </div>
+
+    <table class="table-striped">
+        <thead>
+            <tr>
+            <th scope="col">S No.</th>
+            <th scope="col">Book Title</th>
+            <th scope="col">Author</th>
+            <th scope="col">Genres</th>
+            <th scope="col">Edit / Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for book in books %}
+            <tr>
+                <th scope="row">{{ forloop.counter }}</th>
+                <td><a href="{% url 'books:book_detail' book.pk %}">{{ book.title }}</a></td>
+                <td>{{ book.author }}</td>
+                <td>{{ book.genres.all | join:", " }}</td>
+                <td>
+                    <a href="{% url 'books:book_update' book.pk %}" class="btn btn-primary">Edit</a>
+                    <form action="{% url 'books:book_delete' book.pk %}" method="post" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" onclick="return confirm('Are you sure?')" class="btn btn-danger">Delete</button>
+                    </form>
+                </td>
+                </tr>
+            <tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% include "includes/pagination.html" %}
+
+{% endblock  %}

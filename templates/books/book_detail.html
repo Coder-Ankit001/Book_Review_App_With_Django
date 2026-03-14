@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} {{ book.title }} {% endblock  %}
+
+{% block content %}
+    <h2>{{book.title}}</h2>
+
+    {% if book.featured_image %}
+        <img src="{{book.featured_image.url}}" alt="">
+    {% endif %}
+    <p><strong>Author:</strong> {{ book.author }}</p>
+    <p><strong>Genres:</strong>
+        {% for genre in book.genres.all %}
+            {{ genre.name }}{% if not forloop.last %}, {% endif %}
+        {% endfor %}
+    </p>
+
+    <h3>Plot</h3>
+    <p>{{book.plot}}</p>
+{% endblock %}

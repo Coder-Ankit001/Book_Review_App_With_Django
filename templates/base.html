@@ -1,0 +1,26 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/utils.css' %}">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/pagination.css' %}">
+    <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
+    <link rel="stylesheet" href="{% static 'css/footer.css' %}">
+    {% block extra_css %}{% endblock %}
+    <title>{% block title %}Book Review App{% endblock  %}</title>
+</head>
+<body>
+    {% include 'includes/navbar.html' %}
+    <main class="container" style="margin-bottom: 40px;">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer class="footer">
+        {% include 'includes/footer.html' %}
+    </footer>
+</body>
+</html>

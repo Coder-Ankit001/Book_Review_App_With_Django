@@ -1,0 +1,26 @@
+:root {
+  --primary: #2563eb;
+  --primary-dark: #1d4ed8;
+  --primary-light: #eff6ff;
+  --text-primary: #1e293b;
+  --text-muted: #64748b;
+  --bg: #ffffff;
+  --border: #e2e8f0;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.container {
+  flex: 1;
+  width: 80vw;
+  margin: auto;
+}
+
+.footer{
+    margin-top: 10px;
+    background-color: rgb(235, 235, 235);
+}

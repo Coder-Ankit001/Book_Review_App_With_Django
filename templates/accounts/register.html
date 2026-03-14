@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/forms.css' %}">
+{% endblock %}
+
+{% block title %} Registration Form {% endblock  %}
+
+{% block content %}
+
+    <div class="form-container">
+        <h1>Sign Up</h1>
+        <form method="POST">
+            {% csrf_token %}
+            {% for field in form %}
+                <div class="form-group">
+                {{ field }}
+                {{ field.errors }}
+                </div>
+            {% endfor %}
+            <button type="submit" class="btn btn-primary">Register</button>
+        </form>
+    </div>
+{% endblock %}
