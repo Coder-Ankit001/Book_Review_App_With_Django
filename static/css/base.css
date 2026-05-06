@@ -24,3 +24,7 @@ body {
     margin-top: 10px;
     background-color: rgb(235, 235, 235);
 }
+
+.mt-auto{
+  margin-top: auto;
+}

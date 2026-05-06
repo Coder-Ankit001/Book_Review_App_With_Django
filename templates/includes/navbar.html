@@ -3,12 +3,13 @@
 <nav class="navbar">
   <div class="nav-container">
 
-    <a class="nav-logo" href="/">
+    <a class="nav-logo" href="{% url 'books:user_book_list' %}">
       <span class="logo-symbol">✦</span>
       Akashic Records
     </a>
 
     <ul class="nav-links">
+      <li><a href="{% url 'books:book_list' %}" class="nav-link">Dashboard</a></li>
       <li><a href="{% url 'books:book_list' %}" class="nav-link">Books</a></li>
       <li><a href="{% url 'books:genre_list' %}" class="nav-link">Genres</a></li>
       <li><a href="/" class="nav-link">Beginners</a></li>

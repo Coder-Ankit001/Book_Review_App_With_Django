@@ -1,0 +1,19 @@
+.book-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 items per row */
+    gap: 40px; /* spacing between cards */
+    padding: 10px;
+}
+
+/* responsive behavior */
+@media (max-width: 992px) {
+    .book-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 576px) {
+    .book-grid {
+        grid-template-columns: repeat(1, 1fr);
+    }
+}

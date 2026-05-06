@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.core.paginator import Paginator
 
 
 from django.db.models import Count
@@ -10,9 +11,10 @@ from .models import Author, Genre, Book
 from .forms import AuthorForm, BookForm
 
 """ Author Views """
-class AuthorListView(LoginRequiredMixin, ListView):
+class AuthorListView(PermissionRequiredMixin, LoginRequiredMixin, ListView):
+    permission_required = "books.view_author"
     model = Author
-    template_name = 'authors/author_list.html'
+    template_name = 'dashboard/author_list.html'
     context_object_name = 'authors'
     login_url = '/accounts/login/'
     paginate_by = 10
@@ -20,7 +22,8 @@ class AuthorListView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         return Author.objects.annotate(books_count=Count('books'))
 
-class AuthorDetailView(LoginRequiredMixin, DetailView):
+class AuthorDetailView(PermissionRequiredMixin, LoginRequiredMixin, DetailView):
+    permission_required = "books.view_author"
     model = Author
     template_name = 'authors/author_detail.html'
     context_object_name = 'author'
@@ -33,27 +36,27 @@ class AuthorDetailView(LoginRequiredMixin, DetailView):
         return context
 
 class AuthorCreateView(PermissionRequiredMixin, CreateView):
+    permission_required = "books.add_author"
     model = Author
     template_name = 'authors/author_form.html'
-    permission_required = 'books.add_author'
     form_class = AuthorForm
 
 class AuthorUpdateView(PermissionRequiredMixin, UpdateView):
+    permission_required = "books.change_author"
     model = Author
     template_name = 'authors/author_form.html'
-    permission_required = 'books.change_author'
     form_class = AuthorForm
 
 class AuthorDeleteView(PermissionRequiredMixin, DeleteView):
+    permission_required = "books.delete_author"
     model = Author
-    permission_required = 'books.delete_author'
     success_url = reverse_lazy('books:author_list')
 
 
 """ Books Views """
 class BookListView(LoginRequiredMixin, ListView):
     model = Book
-    template_name = 'books/book_list.html'
+    template_name = 'dashboard/book_list.html'
     context_object_name = 'books'
     login_url = '/accounts/login/'
     paginate_by = 10
@@ -72,27 +75,40 @@ class BookDetailView(LoginRequiredMixin, DetailView):
         return super().get_queryset().select_related('author').prefetch_related('genres')
 
 class BookCreateView(PermissionRequiredMixin, CreateView):
+    permission_required = "books.add_book"
     model = Book
     template_name = 'books/book_form.html'
-    permission_required = 'books.add_book'
     form_class = BookForm
 
 class BookUpdateView(PermissionRequiredMixin, UpdateView):
+    permission_required = "books.change_book"
     model = Book
     template_name = 'books/book_form.html'
-    permission_required = 'books.change_book'
     form_class = BookForm
 
 class BookDeleteView(PermissionRequiredMixin, DeleteView):
+    permission_required = "books.delete_book"
     model = Book
-    permission_required = 'books.delete_book'
     success_url = reverse_lazy('books:book_list')
+
+def user_book_list(request):
+    book_list = Book.objects.all()
+    paginator = Paginator(book_list, 16)  # 16 books per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, 'books/book_list.html', {
+        "is_paginated": True,
+        "books": page_obj,
+        "page_obj": page_obj
+    })
 
 
 """ Genre Views """
-class GenreListView(LoginRequiredMixin, ListView):
+class GenreListView(PermissionRequiredMixin, LoginRequiredMixin, ListView):
+    permission_required = "books.view_genre"
     model = Genre
-    template_name = 'genres/genre_list.html'
+    template_name = 'dashboard/genre_list.html'
     context_object_name = 'genres'
     login_url = '/accounts/login/'
     paginate_by = 10
@@ -100,7 +116,8 @@ class GenreListView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         return Genre.objects.annotate(books_count=Count('books')).order_by('name')
     
-class GenreDetailView(LoginRequiredMixin, DetailView):
+class GenreDetailView(PermissionRequiredMixin, LoginRequiredMixin, DetailView):
+    permission_required = "books.view_genre"
     model = Genre
     template_name = 'genres/genre_detail.html'
     context_object_name = 'genre'
@@ -113,18 +130,18 @@ class GenreDetailView(LoginRequiredMixin, DetailView):
         return context
     
 class GenreCreateView(PermissionRequiredMixin, CreateView):
+    permission_required = "books.add_genre"
     model = Genre
     template_name = 'genres/genre_form.html'
-    permission_required = 'books.add_genre'
     fields = ['name']
 
 class GenreUpdateView(PermissionRequiredMixin, UpdateView):
+    permission_required = "books.change_genre"
     model = Genre
     template_name = 'genres/genre_form.html'
-    permission_required = 'books.change_genre'
     fields = ['name']
 
 class GenreDeleteView(PermissionRequiredMixin, DeleteView):
+    permission_required = "books.delete_genre"
     model = Genre
-    permission_required = 'books.delete_genre'
     success_url = reverse_lazy('books:genre_list')

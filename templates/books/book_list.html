@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 {% block extra_css %}
-    <link rel="stylesheet" href="{% static 'css/table_striped.css' %}">
+    <link rel="stylesheet" href="{% static 'css/listing.css' %}">
 {% endblock  %}
 {% block title %} Author List {% endblock  %}
 
@@ -12,35 +12,25 @@
         <a href="{% url 'books:book_create' %}" class="btn btn-success mb-3">Add New Book</a>
     </div>
 
-    <table class="table-striped">
-        <thead>
-            <tr>
-            <th scope="col">S No.</th>
-            <th scope="col">Book Title</th>
-            <th scope="col">Author</th>
-            <th scope="col">Genres</th>
-            <th scope="col">Edit / Delete</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for book in books %}
-            <tr>
-                <th scope="row">{{ forloop.counter }}</th>
-                <td><a href="{% url 'books:book_detail' book.pk %}">{{ book.title }}</a></td>
-                <td>{{ book.author }}</td>
-                <td>{{ book.genres.all | join:", " }}</td>
-                <td>
-                    <a href="{% url 'books:book_update' book.pk %}" class="btn btn-primary">Edit</a>
-                    <form action="{% url 'books:book_delete' book.pk %}" method="post" style="display:inline;">
-                        {% csrf_token %}
-                        <button type="submit" onclick="return confirm('Are you sure?')" class="btn btn-danger">Delete</button>
-                    </form>
-                </td>
-                </tr>
-            <tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <div class="book-grid">
+    {% for book in books %}
+        <div class="card">
+
+            <img class="card-img-top" src="..." alt="Card image cap">
+
+            <div class="card-body">
+                <h5 class="card-title">{{ book.title }}</h5>
+                <p>by {{ book.author }}</p>
+                <p class="card-text">{{ book.body|truncatewords:40 }}</p>
+
+                <a href="{% url 'books:book_detail' book.id %}" class="btn btn-primary mt-auto">
+                    See Details
+                </a>
+            </div>
+
+        </div>
+    {% endfor %}
+    </div>
 
     {% include "includes/pagination.html" %}
 
