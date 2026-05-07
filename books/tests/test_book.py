@@ -1,6 +1,6 @@
 from django.test import TestCase
 from ..models import Book, Author, Genre
-from ..forms import BookForm
+
 
 class BookTest(TestCase):
     def setUp(self):
@@ -18,7 +18,6 @@ class BookTest(TestCase):
         self.assertEqual(Book.objects.count(), 1)
         self.assertEqual(book.genres.count(), 1)
 
-
     # RELATION TEST
     def test_book_relations(self):
         book = Book.objects.create(
@@ -29,5 +28,3 @@ class BookTest(TestCase):
 
         book.genres.add(self.genre)
         self.assertIn(self.genre, book.genres.all())
-
-        
