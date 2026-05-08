@@ -1,22 +1,41 @@
-# This workflow will triage pull requests and apply a label based on the
-# paths that are modified in the pull request.
-#
-# To use this workflow, you will need to set up a .github/labeler.yml
-# file with configuration.  For more information, see:
-# https://github.com/actions/labeler
+# Backend / Django logic
+backend:
+  - 'akashic_records/**/*.py'
+  - 'accounts/**/*.py'
+  - 'books/**/*.py'
 
-name: Labeler
-on: [pull_request_target]
+# Templates / frontend UI
+frontend:
+  - 'templates/**/*'
+  - 'static/**/*'
 
-jobs:
-  label:
+# Models
+component: models:
+  - '*/models.py'
 
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      pull-requests: write
+# Views
+component: views:
+  - '*/views.py'
 
-    steps:
-    - uses: actions/labeler@v4
-      with:
-        repo-token: "${{ secrets.GITHUB_TOKEN }}"
+# Forms
+component: forms:
+  - '*/forms.py'
+
+# Tests
+component: tests:
+  - '**/tests/**/*'
+  - '**/test_*.py'
+
+# Documentation
+component: docs:
+  - '*.md'
+
+# Branch-based labels
+feature:
+  - head-branch: ['feature/**']
+
+bugfix:
+  - head-branch: ['fix/**', 'bugfix/**']
+
+refactor:
+  - head-branch: ['refactor/**']
