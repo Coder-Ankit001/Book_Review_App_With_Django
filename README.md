@@ -110,4 +110,3 @@ python manage.py createsuperuser
 Assign roles via Django admin:
 - Admin
 - Editor
-- User
