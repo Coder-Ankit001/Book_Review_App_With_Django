@@ -74,7 +74,6 @@ The project uses Django permissions:
 - books.view_*
 
 Access is enforced using:
-
 - LoginRequiredMixin
 - PermissionRequiredMixin
 
