@@ -15,6 +15,7 @@ from django.db.models import Count
 
 from .models import Author, Genre, Book
 from .forms import AuthorForm, BookForm
+from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
 
 """ Author Views """
 
@@ -194,14 +195,28 @@ def user_genre_list(request):
 """ Search Books"""
 
 
-# Search with Keyword
+# Search Full-Text query for books
 def search_book(request):
     query = request.GET.get("q", "")
-    books = Book.objects.filter(Q(title__icontains=query))
+
+    if query:
+        search_query = SearchQuery(query)
+        search_vector = (
+            SearchVector('title', weight='A') + 
+            SearchVector('author__name', weight='B') +
+            SearchVector('genres__name', weight='C') +
+            SearchVector('plot', weight='D')
+        )
+
+        books = Book.objects.annotate(rank=SearchRank(search_vector, search_query)).filter(rank__gte=0.1).order_by("-rank")
+
+    else:
+        books = Book.objects.all()
+
     paginator = Paginator(books, 16)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
-
+    
     return render(
         request,
         "books/book_list.html",
