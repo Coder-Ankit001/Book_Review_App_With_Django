@@ -1,6 +1,5 @@
 """Production settings for Akashic Records."""
 
-import dj_database_url
 from decouple import config
 
 from .base import *  # noqa : F403
@@ -14,9 +13,19 @@ ALLOWED_HOSTS = config(
 )
 
 DATABASES = {
-    "default": dj_database_url.config(
-        default=config("DATABASE_URL"), conn_max_age=600, ssl_require=True
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': config('DB_NAME'),
+        'USER': config('DB_USER'),
+        'PASSWORD': config('DB_PASSWORD'),
+        'HOST': config('DB_HOST'),
+        'PORT': config('DB_PORT'),
+        'CONN_MAX_AGE': 600,
+        'CONN_HEALTH_CHECKS': True,
+        "OPTIONS": {
+            "sslmode": "require",
+        },
+    }
 }
 
 # Security
