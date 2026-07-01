@@ -8,9 +8,12 @@ DEBUG = False
 
 SECRET_KEY = config("SECRET_KEY")  # overrides base just to be explicit
 
-ALLOWED_HOSTS = config(
-    "ALLOWED_HOSTS", cast=lambda v: [s.strip() for s in v.split(",")]
-)
+ALLOWED_HOSTS = []
+
+RENDER_EXTERNAL_HOSTNAME = config('RENDER_EXTERNAL_HOSTNAME')
+
+if RENDER_EXTERNAL_HOSTNAME:
+    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
 
 DATABASES = {
     'default': {
