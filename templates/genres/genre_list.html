@@ -1,32 +1,31 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 {% load static %}
 {% block extra_css %}
-    <link rel="stylesheet" href="{% static 'css/table_striped.css' %}">
-{% endblock  %}
-{% block title %} Genres {% endblock %}
+  <link rel="stylesheet" href="{% static 'css/table_striped.css' %}" />
+{% endblock %}
+{% block title %}
+  Genres
+{% endblock %}
 
 {% block content %}
+  <div class="my-4 d-flex flex-column gap-2">
     <h2>Genres</h2>
+    <div class="row g-4">
+      {% for genre in genres %}
+        <a class="text-decoration-none text-dark col-md-6 col-lg-4" href="{% url 'books:search_book_genre' genre.pk %}">
+          <div class="card h-100 shadow-sm">
+            <div class="card-body">
+              <h5 class="card-title">{{ genre }}</h5>
 
-    <table class="table-striped">
-        <thead>
-            <th scope="col">S No.</th>
-            <th scope="col">Genre</th>
-            <th scope="col">Books_Count</th>
-            <th scope="col">Action</th>
-        </thead>
-        <tbody>
-            {% for genre in genres %}
-            <tr>
-                <th scope="row">{{ forloop.counter }}</th>
-                <td><a href="{% url 'books:genre_detail' genre.pk %}">{{ genre }}</a></td>
-                <td>{{ genre.books_count }}</td>
-                <td><a href="{% url 'books:search_book_genre' genre.pk %}" class="btn btn-primary">Browse</a></td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+              <p class="text-muted mb-4">{{ genre.books_count }} Books</p>
 
-    {% include "includes/pagination.html" %}
-    
-{% endblock  %}
+              <div class="d-flex gap-2">...</div>
+            </div>
+          </div>
+        </a>
+      {% endfor %}
+    </div>
+  </div>
+
+  {% include 'includes/pagination.html' %}
+{% endblock %}

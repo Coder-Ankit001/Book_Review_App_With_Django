@@ -1,52 +1,59 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 {% load static %}
 {% block extra_css %}
-    <link rel="stylesheet" href="{% static 'css/table_striped.css' %}">
-{% endblock  %}
-{% block title %} Author List {% endblock  %}
+  <link rel="stylesheet" href="{% static 'css/table_striped.css' %}" />
+{% endblock %}
+{% block title %}
+  Author List
+{% endblock %}
 
 {% block content %}
+  {% include 'dashboard/includes/dashboard_navbar.html' with section='authors' %}
+
+  <div>
     <h2>Author List</h2>
 
     <div class="mb-3">
-        <a href="{% url 'books:author_create' %}" class="btn btn-success mb-3">Add New Author</a>
+      <a href="{% url 'books:author_create' %}" class="btn btn-success mb-3">Add New Author</a>
     </div>
 
     <table class="table-striped">
-        <thead>
-            <th scope="col">S No.</th>
-            <th scope="col">Author Name</th>
-            <th scope="col">Popular Book</th>
-            <th scope="col">Books Written</th>
-            {% if request.user.is_superuser %}
-            <th scope="col">Edit / Delete</th>
-            {% else %}
-            <th scope="col">Edit</th>
-            {% endif %}
-        </thead>
-        <tbody>
-            {% for author in authors %}
-            <tr>
-                <th scope="row">{{ forloop.counter }}</th>
-                <td><a href="{% url 'books:author_detail' author.pk %}">{{ author.name }}</a></td>
-                <td>{{ author.most_famous_book }}</td>
-                <td>{{ author.books_count }}</td>
-                <td>
-                    {% if request.user.is_superuser %}
-                    <a href="{% url 'books:author_update' author.pk %}" class="btn btn-primary">Edit</a>
-                    <form action="{% url 'books:author_delete' author.pk %}" method="post" style="display:inline;">
-                        {% csrf_token %}
-                        <button type="submit" onclick="return confirm('Are you sure?')" class="btn btn-danger">Delete</button>
-                    </form>
-                    {% else %}
-                    <a href="{% url 'books:author_update' author.pk %}" class="btn btn-primary">Edit</a>
-                    {% endif %}
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
+      <thead>
+        <th scope="col">S No.</th>
+        <th scope="col">Author Name</th>
+        <th scope="col">Popular Book</th>
+        <th scope="col">Books Written</th>
+        {% if request.user.is_superuser %}
+          <th scope="col">Edit / Delete</th>
+        {% else %}
+          <th scope="col">Edit</th>
+        {% endif %}
+      </thead>
+      <tbody>
+        {% for author in authors %}
+          <tr>
+            <th scope="row">{{ forloop.counter }}</th>
+            <td>
+              <a href="{% url 'books:author_detail' author.pk %}">{{ author.name }}</a>
+            </td>
+            <td>{{ author.most_famous_book }}</td>
+            <td>{{ author.books_count }}</td>
+            <td>
+              {% if request.user.is_superuser %}
+                <a href="{% url 'books:author_update' author.pk %}" class="btn btn-primary">Edit</a>
+                <form action="{% url 'books:author_delete' author.pk %}" method="post" style="display:inline;">
+                  {% csrf_token %}
+                  <button type="submit" onclick="return confirm('Are you sure?')" class="btn btn-danger">Delete</button>
+                </form>
+              {% else %}
+                <a href="{% url 'books:author_update' author.pk %}" class="btn btn-primary">Edit</a>
+              {% endif %}
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
     </table>
+  </div>
 
-    {% include "includes/pagination.html" %}
-
-{% endblock  %}
+  {% include 'includes/pagination.html' %}
+{% endblock %}
