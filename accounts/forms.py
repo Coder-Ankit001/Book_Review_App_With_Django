@@ -5,30 +5,28 @@ from .models import UserProfile
 
 
 class RegisterForm(UserCreationForm):
-    email = forms.EmailField(
-        required=True,
-        widget=forms.EmailInput(
-            attrs={"class": "input-field", "placeholder": "Enter email"}
-        ),
+
+    is_editor = forms.BooleanField(
+        required=False,
+        label="Register as Editor"
     )
 
     class Meta:
         model = UserProfile
-        fields = ["username", "email", "password1", "password2"]
-        widgets = {
-            "username": forms.TextInput(
-                attrs={"class": "input-field", "placeholder": "Enter username"}
-            ),
-            "email": forms.EmailInput(
-                attrs={"class": "input-field", "placeholder": "Enter email"}
-            ),
-        }
+        fields = ["username", "email", "is_editor"]
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields["password1"].widget = forms.PasswordInput(
-            attrs={"class": "input-field", "placeholder": "Enter password"}
-        )
-        self.fields["password2"].widget = forms.PasswordInput(
-            attrs={"class": "input-field", "placeholder": "Confirm password"}
-        )
+
+        labels = {
+            "username": "Enter Username",
+            "email": "Enter email",
+            "password1": "Enter password",
+            "password2": "Confirm password"
+        }
+
+        for field_name, placeholder in labels.items():
+            self.fields[field_name].widget.attrs.update({
+                "class": "input-field",
+                "placeholder": placeholder
+            })
