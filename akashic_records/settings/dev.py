@@ -19,7 +19,7 @@ DATABASES = {
         'CONN_MAX_AGE': 600,
         'CONN_HEALTH_CHECKS': True,
         "OPTIONS": {
-            "sslmode": "require",
+            "sslmode": config('DB_SSLMODE', default='require'),
         },
     }
 }
