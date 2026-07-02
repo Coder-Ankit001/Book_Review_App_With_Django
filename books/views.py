@@ -180,7 +180,7 @@ class GenreDeleteView(PermissionRequiredMixin, DeleteView):
 
 def user_genre_list(request):
     genre_list = Genre.objects.annotate(books_count=Count("books")).order_by("name")
-    paginator = Paginator(genre_list, 10)  # 10 books per page
+    paginator = Paginator(genre_list, 12)  # 10 books per page
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
 
