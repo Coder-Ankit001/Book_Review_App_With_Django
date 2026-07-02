@@ -15,6 +15,12 @@ class UserProfile(AbstractUser):
 
     def __str__(self):
         return self.username
+    
+    @property
+    def can_access_dashboard(self):
+        return self.groups.filter(
+            name__in=["Editor", "Admin"]
+        ).exists()
 
 
 class ReadingStatus(models.Model):
