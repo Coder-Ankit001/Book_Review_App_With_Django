@@ -1,0 +1,34 @@
+<nav class="nav nav-pills my-4">
+  <a class="nav-link 
+    {% if section == 'books' %}
+      active
+    {% else %}
+      border
+      border-primary
+    {% endif %}"
+    href="{% url 'books:book_list' %}">
+    Books
+  </a>
+
+  <a class="nav-link 
+    {% if section == 'genres' %}
+      active
+    {% else %}
+      border
+      border-primary
+    {% endif %}"
+    href="{% url 'books:genre_list' %}">
+    Genres
+  </a>
+
+  <a class="nav-link 
+    {% if section == 'authors' %}
+      active
+    {% else %}
+      border
+      border-primary
+    {% endif %}"
+    href="{% url 'books:author_list' %}">
+    Authors
+  </a>
+</nav>
