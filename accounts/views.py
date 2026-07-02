@@ -12,7 +12,7 @@ def register(request):
         if form.is_valid():
             user = form.save()
 
-            if form.cleaned_data.get('is_editor'):
+            if form.cleaned_data.get("is_editor"):
                 group = Group.objects.get(name="Editor")
                 user.groups.add(group)
 
