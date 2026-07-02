@@ -40,15 +40,11 @@ SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 SECURE_HSTS_PRELOAD = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
 
-
-INSTALLED_APPS += ["storages"]  # noqa: F405
-
 STORAGES = {
     "staticfiles": {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     }
 }
-
 
 INSTALLED_APPS += ["storages"]  # noqa: F405
 
