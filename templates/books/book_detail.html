@@ -1,21 +1,37 @@
 {% extends "base.html" %}
 {% load static %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/books/book_details.css' %}">
+{% endblock %}
 
-{% block title %} {{ book.title }} {% endblock  %}
+{% block title %} {{ book.title }} {% endblock %}
 
 {% block content %}
-    <h2>{{book.title}}</h2>
+<div class="container py-4">
+    <div class="row g-4">
+        <div class="col-md-4">
+            {% if book.featured_image %}
+                <img src="{{ book.featured_image.url }}" alt="{{ book.title }}" class="book-cover img-fluid rounded shadow-sm">
+            {% else %}
+                <img src="/media/placeholder/default_image.webp" alt="{{ book.title }}" class="book-cover img-fluid rounded shadow-sm">
+            {% endif %}
+        </div>
 
-    {% if book.featured_image %}
-        <img src="{{book.featured_image.url}}" alt="">
-    {% endif %}
-    <p><strong>Author:</strong> {{ book.author }}</p>
-    <p><strong>Genres:</strong>
-        {% for genre in book.genres.all %}
-            {{ genre.name }}{% if not forloop.last %}, {% endif %}
-        {% endfor %}
-    </p>
+        <div class="col-md-8">
+            <h2 class="mb-3">{{ book.title }}</h2>
 
-    <h3>Plot</h3>
-    <p>{{book.plot}}</p>
+            <p class="mb-2"><strong>Author:</strong> {{ book.author }}</p>
+
+            <p class="mb-4">
+                <strong>Genres:</strong>
+                {% for genre in book.genres.all %}
+                    <span class="badge bg-secondary">{{ genre.name }}</span>
+                {% endfor %}
+            </p>
+
+            <h5>Plot</h5>
+            <p class="text-muted">{{ book.plot }}</p>
+        </div>
+    </div>
+</div>
 {% endblock %}
