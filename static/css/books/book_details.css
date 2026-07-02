@@ -1,0 +1,12 @@
+/* book_details.css */
+.book-cover {
+    width: 100%;
+    max-width: 280px;
+    object-fit: cover;
+}
+
+.badge {
+    font-weight: 400;
+    font-size: 0.85rem;
+    margin-right: 4px;
+}
