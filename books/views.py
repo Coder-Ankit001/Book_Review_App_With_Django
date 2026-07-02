@@ -10,7 +10,6 @@ from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.core.paginator import Paginator
 
-from django.db.models import Q
 from django.db.models import Count
 
 from .models import Author, Genre, Book
@@ -202,13 +201,17 @@ def search_book(request):
     if query:
         search_query = SearchQuery(query)
         search_vector = (
-            SearchVector('title', weight='A') + 
-            SearchVector('author__name', weight='B') +
-            SearchVector('genres__name', weight='C') +
-            SearchVector('plot', weight='D')
+            SearchVector("title", weight="A")
+            + SearchVector("author__name", weight="B")
+            + SearchVector("genres__name", weight="C")
+            + SearchVector("plot", weight="D")
         )
 
-        books = Book.objects.annotate(rank=SearchRank(search_vector, search_query)).filter(rank__gte=0.1).order_by("-rank")
+        books = (
+            Book.objects.annotate(rank=SearchRank(search_vector, search_query))
+            .filter(rank__gte=0.1)
+            .order_by("-rank")
+        )
 
     else:
         books = Book.objects.all()
@@ -216,7 +219,7 @@ def search_book(request):
     paginator = Paginator(books, 16)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
-    
+
     return render(
         request,
         "books/book_list.html",

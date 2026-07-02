@@ -28,9 +28,7 @@ class BookForm(forms.ModelForm):
                 attrs={"class": "input-field", "placeholder": "Author full name"}
             ),
             "author": forms.Select(attrs={"class": "input-field"}),
-            "genres": forms.SelectMultiple(
-                attrs={"class": "input-field"}
-            ),
+            "genres": forms.SelectMultiple(attrs={"class": "input-field"}),
             "featured_image": forms.ClearableFileInput(
                 attrs={
                     "class": "file-input",
