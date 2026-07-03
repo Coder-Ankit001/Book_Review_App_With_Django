@@ -56,6 +56,6 @@ AWS_S3_REGION_NAME = config("SUPABASE_S3_REGION")
 AWS_S3_ADDRESSING_STYLE = "path"
 AWS_QUERYSTRING_AUTH = False
 
-STORAGES["default"] = {"BACKEND": "storages.backends.s3.S3Storage"}  # noqa: F405
+STORAGES["default"] = {"BACKEND": "akashic_records.storage.SupabaseStorage"}  # noqa: F405
 
 MEDIA_URL = config("SUPABASE_MEDIA_URL")

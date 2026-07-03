@@ -27,7 +27,7 @@ class Book(models.Model):
     title = models.CharField(max_length=150)
     author = models.ForeignKey(Author, on_delete=models.CASCADE, related_name="books")
     genres = models.ManyToManyField(Genre, related_name="books")
-    featured_image = models.ImageField(upload_to="book_images/", null=True, blank=True)
+    featured_image = models.ImageField(upload_to="media/book_images/", null=True, blank=True)
     plot = models.TextField(blank=True)
 
     created_at = models.DateTimeField(auto_now_add=True)

@@ -21,7 +21,7 @@
                 {% if book.featured_image %}
                     <img src="{{ book.featured_image.url }}" alt="{{ book.title }}">
                 {% else %}
-                    <img src="/media/placeholder/default_image.webp" alt="Default book image">
+                    <img src="{% static 'images/placeholders/default_image.webp' %}" alt="Default book image">
                 {% endif %}
             </div>
 
