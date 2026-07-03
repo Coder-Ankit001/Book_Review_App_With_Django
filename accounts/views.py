@@ -17,7 +17,7 @@ def register(request):
                 user.groups.add(group)
 
             login(request, user)
-            return redirect("books:book_list")
+            return redirect("books:user_book_list")
     else:
         form = RegisterForm()
 
@@ -32,7 +32,7 @@ def loginUser(request):
         user = authenticate(request, username=username, password=password)
         if user:
             login(request, user)
-            return redirect("books:book_list")
+            return redirect("books:user_book_list")
         else:
             messages.error(request, "Invalid Credentials!")
     return render(request, "accounts/login.html")
@@ -42,4 +42,4 @@ def logoutUser(request):
     if request.method == "POST":
         logout(request)
         return redirect("login")
-    return redirect("books:book_list")
+    return redirect("books:user_book_list")
