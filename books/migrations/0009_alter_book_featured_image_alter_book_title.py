@@ -4,20 +4,21 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('books', '0008_alter_book_plot'),
+        ("books", "0008_alter_book_plot"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='book',
-            name='featured_image',
-            field=models.ImageField(blank=True, null=True, upload_to='media/book_images/'),
+            model_name="book",
+            name="featured_image",
+            field=models.ImageField(
+                blank=True, null=True, upload_to="media/book_images/"
+            ),
         ),
         migrations.AlterField(
-            model_name='book',
-            name='title',
+            model_name="book",
+            name="title",
             field=models.CharField(db_index=True, max_length=150),
         ),
     ]
