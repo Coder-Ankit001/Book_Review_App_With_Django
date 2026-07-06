@@ -199,7 +199,7 @@ def search_book(request):
     query = request.GET.get("q", "")
 
     if query:
-        search_query = SearchQuery(query)
+        search_query = SearchQuery(query, search_type="websearch")
         search_vector = (
             SearchVector("title", weight="A")
             + SearchVector("author__name", weight="B")
@@ -209,8 +209,9 @@ def search_book(request):
 
         books = (
             Book.objects.annotate(rank=SearchRank(search_vector, search_query))
-            .filter(rank__gte=0.1)
+            .filter(rank__gt=0.0)
             .order_by("-rank")
+            .distinct()
         )
 
     else:
