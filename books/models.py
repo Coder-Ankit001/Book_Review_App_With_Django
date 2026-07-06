@@ -24,7 +24,7 @@ class Genre(models.Model):
 
 
 class Book(models.Model):
-    title = models.CharField(max_length=150)
+    title = models.CharField(max_length=150, db_index=True)
     author = models.ForeignKey(Author, on_delete=models.CASCADE, related_name="books")
     genres = models.ManyToManyField(Genre, related_name="books")
     featured_image = models.ImageField(
